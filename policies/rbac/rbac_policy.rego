@@ -31,11 +31,10 @@ decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 	permission == "catalog.entity.delete"
 }
 
-# Conditional decision based on the entity type
 decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 	"resourceType": "catalog-entity",
-	"rule": "IS_ENTITY_KIND",
-	"params": {"kinds": ["API"]},
+	"rule": "IS_ENTITY_OWNER",
+	"params": {"claims": claims},
 }]}) if {
-	permission == "catalog.entity.read"
+	permission == "catalog.entity.delete"
 }
