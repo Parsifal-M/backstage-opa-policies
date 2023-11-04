@@ -3,13 +3,11 @@ package rbac_policy
 import future.keywords.if
 
 # Helper method for constructing a conditional decision
-conditional(plugin_id, resource_type, conditions) if {
-	conditional_decision := {
-		"result": "CONDITIONAL",
-		"pluginId": pluginId,
-		"resourceType": resourceType,
-		"conditions": conditions,
-	}
+conditional(plugin_id, resource_type, conditions) := {
+	"result": "CONDITIONAL",
+	"pluginId": plugin_id,
+	"resourceType": resource_type,
+	"conditions": conditions,
 }
 
 default decision := {"result": "DENY"}
@@ -33,8 +31,8 @@ decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 
 decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 	"resourceType": "catalog-entity",
-	"rule": "IS_ENTITY_OWNER",
-	"params": {"claims": claims},
+	"rule": "IS_ENTITY_KIND",
+	"params": {"kinds": ["API"]},
 }]}) if {
-	permission == "catalog.entity.delete"
+	permission == "catalog.entity.read"
 }
