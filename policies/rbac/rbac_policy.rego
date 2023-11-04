@@ -3,7 +3,7 @@ package rbac_policy
 import future.keywords.if
 
 # Helper method for constructing a conditional decision
-CONDITIONAL(plugin_id, resource_type, conditions) := conditional_decision if {
+conditional(plugin_id, resource_type, conditions) if {
 	conditional_decision := {
 		"result": "CONDITIONAL",
 		"pluginId": pluginId,
@@ -23,7 +23,7 @@ claims := input.identity.claims
 # }
 
 # Conditional based on claims (groups a user belongs to)
-decision := CONDITIONAL("catalog", "catalog-entity", {"anyOf": [{
+decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 	"resourceType": "catalog-entity",
 	"rule": "IS_ENTITY_OWNER",
 	"params": {"claims": claims},
@@ -32,7 +32,7 @@ decision := CONDITIONAL("catalog", "catalog-entity", {"anyOf": [{
 }
 
 # Conditional decision based on the entity type
-decision := CONDITIONAL("catalog", "catalog-entity", {"anyOf": [{
+decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 	"resourceType": "catalog-entity",
 	"rule": "IS_ENTITY_KIND",
 	"params": {"kinds": ["API"]},
