@@ -32,7 +32,7 @@ decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 	"resourceType": "catalog-entity",
 	"rule": "IS_ENTITY_KIND",
-	"params": {"kinds": ["API"]},
+	"params": {"kinds": ["Component"]},
 }]}) if {
 	permission == "catalog.entity.read"
 }
