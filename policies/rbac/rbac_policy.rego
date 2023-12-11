@@ -10,7 +10,7 @@ conditional(plugin_id, resource_type, conditions) := {
 	"conditions": conditions,
 }
 
-default decision := {"result": "DENY"}
+default decision := {"result": "ALLOW"}
 
 permission := input.permission.name
 
