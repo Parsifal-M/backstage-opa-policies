@@ -10,7 +10,7 @@ conditional(plugin_id, resource_type, conditions) := {
 	"conditions": conditions,
 }
 
-default decision := {"result": "DENY"}
+default decision := {"result": "ALLOW"}
 
 permission := input.permission.name
 
@@ -32,7 +32,7 @@ decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 decision := conditional("catalog", "catalog-entity", {"anyOf": [{
 	"resourceType": "catalog-entity",
 	"rule": "IS_ENTITY_KIND",
-	"params": {"kinds": ["Component"]},
+	"params": {"kinds": ["API"]},
 }]}) if {
 	permission == "catalog.entity.read"
 }
