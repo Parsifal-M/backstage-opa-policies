@@ -1,34 +1,37 @@
 package entity_checker
 
+import future.keywords.contains
+import future.keywords.if
+import future.keywords.in
+
 default allow := false
 
-allow {
-	count({v | v := violation[_]; v.level == "error"}) == 0
+allow if {
+	count({v | some v in violation; v.level == "error"}) == 0
 }
 
-violation[{"message": msg, "level": "warning"}] {
-	not input.metadata.tags
+violation contains [{"message": msg, "level": "warning"}] if {
+	not contains(input.metadata.tags)
 	msg := "You do not have any tags set!"
 }
 
-violation[{"message": msg, "level": "error"}] {
-	valid_lifecycles = {"production", "development", "experimental"}
-	not valid_lifecycles[input.spec.lifecycle]
+violation contains [{"message": msg, "level": "error"}] if {
+	valid_lifecycles := {"production", "development", "experimental"}
+	not contains(valid_lifecycles, input.spec.lifecycle)
 	msg := "Incorrect lifecycle, should be one of production, development or experimental"
 }
 
-violation[{"message": msg, "level": "error"}] {
+violation contains [{"message": msg, "level": "error"}] if {
 	not is_system_present
 	msg := "System is missing!"
 }
 
-violation[{"message": msg, "level": "error"}] {
-	valid_types = {"website", "library", "service"}
-	not valid_types[input.spec.type]
-	not valid_types
+violation contains [{"message": msg, "level": "error"}] if {
+	valid_types := {"website", "library", "service"}
+	not contains(valid_types, input.spec.type)
 	msg := "Incorrect component type!"
 }
 
-is_system_present {
-	input.spec.system
+is_system_present if {
+	contains(input.spec.system)
 }
